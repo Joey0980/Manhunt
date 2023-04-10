@@ -1,0 +1,10 @@
+name: Manhunt
+version: '${project.version}'
+main: systems.joey.manhunt.Manhunt
+api-version: 1.19
+authors: [ joey ]
+commands:
+  manhunt:
+    description: Start the manhunt with a specified player to be tracked
+    usage: /manhunt <player>
+  
