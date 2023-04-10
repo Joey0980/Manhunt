@@ -9,12 +9,9 @@ public final class Manhunt extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // register commands and events
         getCommand("manhunt").setExecutor(new ManhuntCommand(this));
         getServer().getPluginManager().registerEvents(new CompassListeners(), this);
         getServer().getPluginManager().registerEvents(new RespawnListeners(), this);
-
-        getLogger().info("Manhunt Enabled");
     }
 
     private static String trackedPlayer = null;
