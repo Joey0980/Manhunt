@@ -27,7 +27,7 @@ public class CompassListeners implements Listener {
                 Player player = event.getPlayer();
                 Player target = getPlayer(Manhunt.getTracked());
 
-                if (target != null || target.getWorld() != player.getWorld()) {
+                if (target != null && target.getWorld() != player.getWorld()) {
                     World world = player.getWorld();
                     CompassMeta meta = (CompassMeta) event.getItem().getItemMeta();
                     switch (player.getWorld().getEnvironment()) {
