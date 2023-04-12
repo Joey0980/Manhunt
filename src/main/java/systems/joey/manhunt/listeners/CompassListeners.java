@@ -1,5 +1,6 @@
 package systems.joey.manhunt.listeners;
 
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -27,7 +28,7 @@ public class CompassListeners implements Listener {
                 Player player = event.getPlayer();
                 Player target = getPlayer(Manhunt.getTracked());
 
-                if (target != null && target.getWorld() != player.getWorld()) {
+                if (target != null || target.getWorld() != player.getWorld()) {
                     World world = player.getWorld();
                     CompassMeta meta = (CompassMeta) event.getItem().getItemMeta();
                     switch (player.getWorld().getEnvironment()) {
@@ -40,7 +41,7 @@ public class CompassListeners implements Listener {
                         case NETHER, THE_END -> {
                             meta.setLodestone(target.getLocation());
                             meta.setLodestoneTracked(false);
-                            meta.setDisplayName("Compass");
+                            meta.setDisplayName(ChatColor.WHITE + "Compass");
                             event.getItem().setItemMeta(meta);
                         }
                     }
