@@ -1,6 +1,7 @@
 package systems.joey.manhunt.listeners;
 
-import net.kyori.adventure.text.format.TextColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -10,7 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.meta.CompassMeta;
 import systems.joey.manhunt.Manhunt;
 
@@ -23,12 +23,12 @@ public class CompassListeners implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getItem() != null && event.getItem().getType() == Material.COMPASS) {
                 String playerTrack = Manhunt.getTracked();
-                if (playerTrack == null || playerTrack.equals(event.getPlayer().getName())) return;
+                if (playerTrack == null && playerTrack.equals(event.getPlayer().getName())) return;
 
                 Player player = event.getPlayer();
                 Player target = getPlayer(Manhunt.getTracked());
 
-                if (target != null || target.getWorld() != player.getWorld()) {
+                if (target != null && target.getWorld().getName().equals(player.getWorld().getName()) && !target.getName().equals(player.getName())) {
                     World world = player.getWorld();
                     CompassMeta meta = (CompassMeta) event.getItem().getItemMeta();
                     switch (player.getWorld().getEnvironment()) {
@@ -41,13 +41,14 @@ public class CompassListeners implements Listener {
                         case NETHER, THE_END -> {
                             meta.setLodestone(target.getLocation());
                             meta.setLodestoneTracked(false);
-                            meta.setDisplayName(ChatColor.WHITE + "Compass");
+                            meta.setDisplayName(ChatColor.RESET + "Compass");
                             event.getItem().setItemMeta(meta);
                         }
                     }
-                    player.sendMessage(ChatColor.GREEN + "Compass is now pointing to " + target.getName() + ".");
+                    //player.sendMessage(ChatColor.GREEN + "Compass is now pointing to " + target.getName() + ".");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Compass is now pointing to " + target.getName() + "."));
                 } else {
-                    player.sendMessage(ChatColor.RED + "There are no players to track.");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "There are no players to track."));
                 }
             }
         }

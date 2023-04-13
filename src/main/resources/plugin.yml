@@ -7,4 +7,6 @@ commands:
   manhunt:
     description: Start the manhunt with a specified player to be tracked
     usage: /manhunt <player>
-  
+  test:
+    description: Test command
+    usage: /test
